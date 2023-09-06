@@ -11,12 +11,15 @@ import "common/protocol/server_spec.proto";
 
 // ServerConfig is the protobuf config for spp server.
 message ServerConfig {
-  map<string, string> accounts = 1;
-  v2ray.core.common.net.IPOrDomain address = 2;
+  string username = 1;
+  string password = 2;
+  uint32 user_level = 3;
+  v2ray.core.common.net.IPOrDomain address = 4;
 }
 
 // ClientConfig is the protobuf config for spp client.
 message ClientConfig {
   // Sever is a list of Socks server addresses.
+  // Each server shall only have 1 account. 
   repeated v2ray.core.common.protocol.ServerEndpoint server = 1;
 }

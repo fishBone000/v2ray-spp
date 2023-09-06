@@ -113,20 +113,20 @@ func (c *Client) Process(ctx context.Context, link *transport.Link, dialer inter
 
 	requestFunc := func() error {
 		defer timer.SetTimeout(p.Timeouts.DownlinkOnly)
-    // TODO Add error handling for wpacket recovery
+		// TODO Add error handling for wpacket recovery
 		return buf.Copy(link.Reader, buf.NewWriter(ray), buf.UpdateActivity(timer))
 	}
-  responseFunc := func() error {
-    defer timer.SetTimeout(p.Timeouts.UplinkOnly)
-    return buf.Copy(buf.NewReader(ray), link.Writer, buf.UpdateActivity(timer))
-  }
+	responseFunc := func() error {
+		defer timer.SetTimeout(p.Timeouts.UplinkOnly)
+		return buf.Copy(buf.NewReader(ray), link.Writer, buf.UpdateActivity(timer))
+	}
 
-  responseDonePost := task.OnSuccess(responseFunc, task.Close(link.Writer))
-  if err := task.Run(ctx, requestFunc, responseDonePost); err != nil {
-    return newError("connection ends").Base(err)
-  }
+	responseDonePost := task.OnSuccess(responseFunc, task.Close(link.Writer))
+	if err := task.Run(ctx, requestFunc, responseDonePost); err != nil {
+		return newError("connection ends").Base(err)
+	}
 
-  return nil
+	return nil
 }
 
 func init() {

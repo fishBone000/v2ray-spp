@@ -24,12 +24,12 @@ func (a *MemoryAccount) Equals(account protocol.Account) bool {
 
 // AsAccount implements protocol.AsAccount.
 func (a *Account) AsAccount() (protocol.Account, error) {
-  if a.User == "" {
-    return nil, newError("user cannot be empty").AtError()
-  }
-  if a.Password == "" {
-    return nil, newError("password cannot be empty").AtError()
-  }
+	if a.User == "" {
+		return nil, newError("user cannot be empty").AtError()
+	}
+	if a.Password == "" {
+		return nil, newError("password cannot be empty").AtError()
+	}
 	return &MemoryAccount{
 		User:     a.User,
 		Password: a.Password,
